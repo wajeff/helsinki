@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -30,7 +32,7 @@ const App = () => {
       const nameObject = {
       name: newName,
       number: newNumber,
-      id: persons.length,
+      id: persons.length + 1,
       
     }
       const exists = persons.some(person => person.name === newName)
@@ -45,31 +47,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with <input value={newFilter} name ='filter' onChange={handleInputChange}/></div>
+      <Filter newFilter={newFilter} handleInputChange={handleInputChange}/>
 
-
-      <form onSubmit = {addValue}>
-        <div>
-          name: <input value = {newName} name = "name" onChange = {handleInputChange} />
-        </div>
-        <div>
-          phone: <input value = {newNumber} name = "number" onChange = {handleInputChange} />
-        </div>
-         <div>
-          <button type="submit" value="addValue">add</button>
-        </div>
-      </form>
+      <PersonForm addValue={addValue} newName={newName} newNumber={newNumber} handleInputChange={handleInputChange}/>
       <h2>Numbers</h2>
-      <div>
-        <ul>
-          {(newFilter)?
-            persons.filter((person)=>person.name.toLowerCase().includes(newFilter.toLowerCase())).map((person)=><li>{person.name} {person.number}</li>)
-            
-            : persons.map((person)=> <li>{person.name} {person.number}</li>)
-          }
-        </ul>
-        
-      </div>
+      <Persons persons ={persons} newFilter={newFilter}/>
       ...
     </div>
   )
